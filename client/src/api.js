@@ -1,7 +1,9 @@
 import axios from "axios";
 
 // Create an instance pointing directly to our local backend server
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://lms-backend-api-oyv9.onrender.com/api";
 
 const API = axios.create({ baseURL: BASE_URL });
 
