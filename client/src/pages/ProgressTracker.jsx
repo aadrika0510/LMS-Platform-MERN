@@ -3,6 +3,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://lms-backend-api-oyv9.onrender.com/api";
+
 export default function ProgressTracker() {
   const [progressData, setProgressData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +30,7 @@ export default function ProgressTracker() {
           }
         }
 
-        const res = await axios.get("http://localhost:5000/api/progress", {
+        const res = await axios.get(`${BASE_URL}/progress`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

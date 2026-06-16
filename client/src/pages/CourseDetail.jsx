@@ -3,6 +3,10 @@ import axios from "axios"; // 🟢 1. Import axios for fetching live quizzes
 import { fetchCoursesAPI, fetchProgressAPI, toggleProgressAPI } from "../api";
 import QuizView from "../components/QuizView";
 
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://lms-backend-api-oyv9.onrender.com/api";
+  
 export default function CourseDetail({ courseId, onBack }) {
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -67,7 +71,7 @@ export default function CourseDetail({ courseId, onBack }) {
 
         // Changed from "/quizzes/all" to pass the exact courseId as a query parameter or path parameter
         const res = await axios.get(
-          `http://localhost:5000/api/quizzes/course/${courseId}`,
+          `${BASE_URL}/quizzes/course/${courseId}`,
           getAuthHeaders(),
         );
         setQuizzes(res.data || []);

@@ -3,6 +3,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://lms-backend-api-oyv9.onrender.com/api";
+
 export default function AssignmentPage() {
   const { courseId } = useParams();
   const [assignments, setAssignments] = useState([]);
@@ -41,15 +45,15 @@ export default function AssignmentPage() {
           courseId === "all-assignments" ||
           courseId === "undefined";
         const url = isGlobalView
-          ? `http://localhost:5000/api/assignments/global/all`
-          : `http://localhost:5000/api/assignments/${courseId}`;
+          ? `${BASE_URL}/assignments/global/all`
+          : `${BASE_URL}/assignments/${courseId}`;
 
         const res = await axios.get(url, getHeaders());
         setAssignments(res.data || []);
 
         if (currentUserRole === "Instructor" || currentUserRole === "Admin") {
           const courseRes = await axios.get(
-            "http://localhost:5000/api/courses",
+            `${BASE_URL}/courses`,
             getHeaders(),
           );
           setCourses(courseRes.data || []);
@@ -86,7 +90,7 @@ export default function AssignmentPage() {
     try {
       const payload = { title, description, dueDate, courseId: targetCourseId };
       const res = await axios.post(
-        `http://localhost:5000/api/assignments/create`,
+        `${BASE_URL}/assignments/create`,
         payload,
         getHeaders(),
       );
@@ -121,11 +125,7 @@ export default function AssignmentPage() {
 
     try {
       const payload = { assignmentId, fileUrl: urlToSubmit };
-      await axios.post(
-        `http://localhost:5000/api/assignments/submit`,
-        payload,
-        getHeaders(),
-      );
+      await axios.post(`${BASE_URL}/assignments/submit`, payload, getHeaders());
 
       alert("Assignment milestone submitted successfully! 🎉");
       setSubmissionUrls({ ...submissionUrls, [assignmentId]: "" });
@@ -148,7 +148,7 @@ export default function AssignmentPage() {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/assignments/grade",
+        `${BASE_URL}/assignments/grade`,
         { assignmentId, studentId, grade: gradeValue },
         getHeaders(),
       );
