@@ -6,7 +6,7 @@ export default function Auth() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const intendedRole = queryParams.get("intent");
-  const [isRegister, setIsRegister] = useState(false); // Toggle between Login and Signup view
+  const [isRegister, setIsRegister] = useState(false);
   const [role, setRole] = useState(
     intendedRole === "instructor" ? "Instructor" : "Student",
   );
@@ -30,19 +30,18 @@ export default function Auth() {
     try {
       let response;
       if (isRegister) {
-        // Send register payload including selected role card metric
         response = await registerAPI({ ...formData, role });
       } else {
-        // Send normal login payload
         response = await loginAPI({
           email: formData.email,
           password: formData.password,
         });
       }
-      if (response.data.token) {
+
+      if (response.data?.token) {
         localStorage.setItem("token", response.data.token);
       }
-      const userProfileData = response.data.user || response.data;
+      const userProfileData = response.data?.user || response.data;
 
       localStorage.setItem("userProfile", JSON.stringify(userProfileData));
       window.location.href = "/dashboard";
@@ -57,25 +56,27 @@ export default function Auth() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50 via-slate-50 to-indigo-100 px-4 py-12">
-      <div className="w-full max-w-lg overflow-hidden rounded-3xl bg-white/80 shadow-2xl shadow-indigo-100/50 border border-white backdrop-blur-xl transition-all duration-500">
-        {/* Banner Headers */}
-        <div className="bg-gradient-to-br from-indigo-600 to-blue-600 px-8 py-10 text-center text-white relative">
-          <div className="absolute inset-0 bg-grid-white/[0.08] [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.6))]" />
-          <h2 className="text-3xl font-extrabold tracking-tight relative z-10">
+    <div className="flex min-h-screen items-center justify-center bg-[#070a13] bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-950/30 via-[#070a13] to-[#070a13] px-4 py-12 text-slate-100">
+      <div className="w-full max-w-lg overflow-hidden rounded-3xl bg-slate-900/40 border border-slate-800/60 backdrop-blur-xl shadow-[0_0_50px_rgba(99,102,241,0.05)] transition-all duration-500">
+        {/* 🎨 MODERN GRADIENT MESH BANNER */}
+        <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 px-8 py-10 text-center relative border-b border-slate-800/60">
+          <div className="absolute inset-0 bg-grid-white/[0.02] [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.4))]" />
+          <div className="absolute -top-12 -left-12 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl" />
+
+          <h2 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent relative z-10">
             {isRegister ? "Begin Your Journey" : "Welcome Back"}
           </h2>
-          <p className="mt-2 text-sm text-indigo-100/80 relative z-10">
+          <p className="mt-2 text-sm text-slate-400 relative z-10">
             {isRegister
               ? "Join our global community of learners and educators."
               : "Access your courses, dashboard, and custom toolkits."}
           </p>
         </div>
 
-        {/* Input & Form Container */}
+        {/* INPUT & FORM CONTAINER */}
         <div className="p-8 md:p-10">
           {error && (
-            <div className="mb-6 p-4 bg-rose-50 border border-rose-100 text-rose-600 text-sm rounded-2xl font-semibold flex items-center gap-2 animate-pulse">
+            <div className="mb-6 p-4 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm rounded-2xl font-semibold flex items-center gap-2 animate-pulse">
               <span>⚠️</span> {error}
             </div>
           )}
@@ -83,9 +84,9 @@ export default function Auth() {
           <form className="space-y-5" onSubmit={handleSubmit}>
             {isRegister && (
               <>
-                {/* Role Switcher Cards */}
+                {/* ROLE SWITCHER CARDS */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
                     Choose Account Type
                   </label>
                   <div className="grid grid-cols-2 gap-4">
@@ -94,12 +95,12 @@ export default function Auth() {
                       onClick={() => setRole("Student")}
                       className={`p-4 rounded-2xl border text-left transition-all duration-300 ${
                         role === "Student"
-                          ? "border-indigo-600 bg-indigo-50/60 ring-2 ring-indigo-600/20"
-                          : "border-slate-200 bg-white hover:border-slate-300"
+                          ? "border-indigo-500 bg-indigo-500/10 ring-2 ring-indigo-500/20"
+                          : "border-slate-800 bg-slate-950/40 hover:border-slate-700"
                       }`}
                     >
                       <div className="text-xl mb-1">🎓</div>
-                      <div className="font-bold text-slate-800 text-sm">
+                      <div className="font-bold text-white text-sm">
                         Student
                       </div>
                       <div className="text-xs text-slate-400 mt-0.5">
@@ -112,12 +113,12 @@ export default function Auth() {
                       onClick={() => setRole("Instructor")}
                       className={`p-4 rounded-2xl border text-left transition-all duration-300 ${
                         role === "Instructor"
-                          ? "border-indigo-600 bg-indigo-50/60 ring-2 ring-indigo-600/20"
-                          : "border-slate-200 bg-white hover:border-slate-300"
+                          ? "border-indigo-500 bg-indigo-500/10 ring-2 ring-indigo-500/20"
+                          : "border-slate-800 bg-slate-950/40 hover:border-slate-700"
                       }`}
                     >
                       <div className="text-xl mb-1">👨‍🏫</div>
-                      <div className="font-bold text-slate-800 text-sm">
+                      <div className="font-bold text-white text-sm">
                         Instructor
                       </div>
                       <div className="text-xs text-slate-400 mt-0.5">
@@ -127,9 +128,9 @@ export default function Auth() {
                   </div>
                 </div>
 
-                {/* Name Input Field */}
+                {/* NAME FIELD */}
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700">
+                  <label className="block text-sm font-semibold text-slate-300">
                     Full Name
                   </label>
                   <input
@@ -137,7 +138,7 @@ export default function Auth() {
                     type="text"
                     required
                     placeholder="Alex Mercer"
-                    className="mt-1.5 block w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+                    className="mt-1.5 block w-full rounded-2xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-slate-100 placeholder-slate-600 outline-none transition focus:border-indigo-500 focus:bg-slate-950 focus:ring-4 focus:ring-indigo-950/50"
                     value={formData.name}
                     onChange={handleInputChange}
                   />
@@ -145,9 +146,9 @@ export default function Auth() {
               </>
             )}
 
-            {/* Email Field */}
+            {/* EMAIL FIELD */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700">
+              <label className="block text-sm font-semibold text-slate-300">
                 Email Address
               </label>
               <input
@@ -155,15 +156,15 @@ export default function Auth() {
                 type="email"
                 required
                 placeholder="you@example.com"
-                className="mt-1.5 block w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+                className="mt-1.5 block w-full rounded-2xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-slate-100 placeholder-slate-600 outline-none transition focus:border-indigo-500 focus:bg-slate-950 focus:ring-4 focus:ring-indigo-950/50"
                 value={formData.email}
                 onChange={handleInputChange}
               />
             </div>
 
-            {/* Password Field */}
+            {/* PASSWORD FIELD */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700">
+              <label className="block text-sm font-semibold text-slate-300">
                 Password
               </label>
               <input
@@ -171,17 +172,17 @@ export default function Auth() {
                 type="password"
                 required
                 placeholder="••••••••"
-                className="mt-1.5 block w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+                className="mt-1.5 block w-full rounded-2xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-slate-100 placeholder-slate-600 outline-none transition focus:border-indigo-500 focus:bg-slate-950 focus:ring-4 focus:ring-indigo-950/50"
                 value={formData.password}
                 onChange={handleInputChange}
               />
             </div>
 
-            {/* Action Trigger Button */}
+            {/* ACTION TRIGGER BUTTON */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-200 hover:from-indigo-700 hover:to-blue-700 transition duration-300 disabled:opacity-50"
+              className="w-full mt-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-950 hover:from-indigo-500 hover:to-purple-500 transition duration-300 disabled:opacity-50"
             >
               {loading
                 ? "Processing Securely..."
@@ -191,14 +192,14 @@ export default function Auth() {
             </button>
           </form>
 
-          {/* Alternative Toggle Links */}
-          <div className="mt-8 text-center border-t border-slate-100 pt-6">
+          {/* TOGGLE LINKS */}
+          <div className="mt-8 text-center border-t border-slate-800/60 pt-6">
             <button
               onClick={() => {
                 setIsRegister(!isRegister);
                 setError("");
               }}
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition"
+              className="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition"
             >
               {isRegister
                 ? "Already have an account? Sign In"
