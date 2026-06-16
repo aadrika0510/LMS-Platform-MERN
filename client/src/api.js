@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an instance pointing directly to our local backend server
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
 });
 
 // A security interceptor: Before any request goes out, look for a saved token
