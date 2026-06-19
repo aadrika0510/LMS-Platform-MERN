@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://lms-backend-api-oyv9.onrender.com/api";
+
 export default function QuizView({ quiz, onQuizPassed }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -93,7 +97,7 @@ export default function QuizView({ quiz, onQuizPassed }) {
 
       // 🟢 Matches backend pattern: router.post("/:quizId/submit")
       const res = await axios.post(
-        `http://localhost:5000/api/quizzes/${quiz._id}/submit`,
+        `${BASE_URL}/quizzes/${quiz._id}/submit`,
         {
           answers: answersArray,
         },

@@ -4,6 +4,10 @@ import { createCourseAPI } from "../api";
 import QuizForm from "../components/QuizForm";
 import axios from "axios";
 
+const BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://lms-backend-api-oyv9.onrender.com/api";
+
 export default function CourseBuilder({ onCourseCreated }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -136,13 +140,9 @@ export default function CourseBuilder({ onCourseCreated }) {
           // Send an independent POST to populate your empty quizzes collection
           const token =
             localStorage.getItem("token") || localStorage.getItem("auth-token");
-          await axios.post(
-            "http://localhost:5000/api/quizzes/create",
-            quizPayload,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
-          );
+          await axios.post(`${BASE_URL}/quizzes/create`, quizPayload, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
         }
       }
 
